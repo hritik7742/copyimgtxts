@@ -47,7 +47,6 @@
 </body>
 </html> -->
 
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -57,25 +56,27 @@
 </head>
 <body>
     <h2>View Uploaded Image</h2>
-    <button id="showBtn">Show Image</button><br><br>
-    <img id="imageDisplay" src="" alt="Uploaded Image" style="display: none; max-width: 500px;">
+    <img id="imageDisplay" src="" alt="Uploaded Image" style="max-width: 500px;">
 
     <script>
-        // When the button is clicked, send a message to the content script
-        document.getElementById('showBtn').addEventListener('click', function() {
-            window.postMessage({ action: 'getUploadedImage' }, '*');
-        });
+        // Function to get the value of a URL parameter
+        function getUrlParameter(name) {
+            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+            const results = regex.exec(location.search);
+            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
 
-        // Listen for messages from the content script
-        window.addEventListener('message', function(event) {
-            if (event.data && event.data.action === 'showImage') {
-                const img = document.getElementById('imageDisplay');
-                img.src = event.data.image;
-                img.style.display = 'block';
-            } else if (event.data && event.data.action === 'error') {
-                alert(event.data.message);
-            }
-        });
+        // Get the image data from the URL parameter
+        const base64Image = getUrlParameter('image');
+
+        // If there's an image, display it
+        if (base64Image && base64Image.startsWith('data:image')) {
+            const img = document.getElementById('imageDisplay');
+            img.src = base64Image;
+        } else {
+            alert('No image found.');
+        }
     </script>
 </body>
 </html>
