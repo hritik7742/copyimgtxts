@@ -165,22 +165,30 @@ function applyCrop() {
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
-
-// Add this function to handle image data from the extension
-function handleExtensionImageData() {
-    const imageData = getUrlParameter('imageData');
-    if (imageData) {
-        const img = new Image();
-        img.onload = function() {
-            filePreview.innerHTML = '';
-            filePreview.appendChild(img);
-            extractText(imageData);
-        };
-        img.src = imageData;
+// Add this script to your website
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    if (message.action === "uploadImage") {
+      const imageData = message.imageData;
+      // Here, you would typically send this imageData to your server
+      // or use it to populate a file input on your webpage
+      console.log("Received image data:", imageData);
+      
+      // Example: If you have a file input with id="file-input"
+      const fileInput = document.getElementById('file-input');
+      if (fileInput) {
+        // Convert base64 to blob
+        fetch(imageData)
+          .then(res => res.blob())
+          .then(blob => {
+            const file = new File([blob], "screenshot.png", { type: "image/png" });
+            const dataTransfer = new DataTransfer();
+            dataTransfer.items.add(file);
+            fileInput.files = dataTransfer.files;
+            
+            // Trigger any change event listeners on the file input
+            const event = new Event('change', { bubbles: true });
+            fileInput.dispatchEvent(event);
+          });
+      }
     }
-}
-
-// Call this function when the page loads
-window.onload = function() {
-    handleExtensionImageData();
-};
+  });
