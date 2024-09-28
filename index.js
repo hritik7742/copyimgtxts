@@ -165,30 +165,36 @@ function applyCrop() {
     var results = regex.exec(location.search);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
 }
-// Add this script to your website
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    if (message.action === "uploadImage") {
-      const imageData = message.imageData;
-      // Here, you would typically send this imageData to your server
-      // or use it to populate a file input on your webpage
-      console.log("Received image data:", imageData);
-      
-      // Example: If you have a file input with id="file-input"
-      const fileInput = document.getElementById('file-input');
-      if (fileInput) {
+
+// Add this script to your website (https://copyimgtxts.vercel.app/)
+document.addEventListener('DOMContentLoaded', function() {
+    // Check if there's image data in localStorage
+    chrome.storage.local.get(['capturedImageData'], function(result) {
+      if (result.capturedImageData) {
         // Convert base64 to blob
-        fetch(imageData)
+        fetch(result.capturedImageData)
           .then(res => res.blob())
           .then(blob => {
             const file = new File([blob], "screenshot.png", { type: "image/png" });
-            const dataTransfer = new DataTransfer();
-            dataTransfer.items.add(file);
-            fileInput.files = dataTransfer.files;
             
-            // Trigger any change event listeners on the file input
-            const event = new Event('change', { bubbles: true });
-            fileInput.dispatchEvent(event);
+            // Assuming your file input has id="file-input"
+            const fileInput = document.getElementById('file-input');
+            
+            if (fileInput) {
+              const dataTransfer = new DataTransfer();
+              dataTransfer.items.add(file);
+              fileInput.files = dataTransfer.files;
+              
+              // Trigger any change event listeners on the file input
+              const event = new Event('change', { bubbles: true });
+              fileInput.dispatchEvent(event);
+              
+              // Clear the stored image data
+              chrome.storage.local.remove(['capturedImageData'], function() {
+                console.log('Image data cleared from storage');
+              });
+            }
           });
       }
-    }
+    });
   });
