@@ -1,14 +1,14 @@
-<!-- 
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quantum Text Extractor</title>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/tesseract.js/2.1.5/tesseract.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js'></script>
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.js'></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.12/cropper.min.css">
+    <script src='tesseract.min.js'></script>
+    <script src='pdf.min.js'></script>
+    <script src='cropper.min.js'></script>
+    <link rel="stylesheet" href="cropper.min.css">
     <link rel="stylesheet" href="index.css">
     
 </head>
@@ -45,32 +45,6 @@
 
     <script src="index.js"></script>
 </body>
-</html> -->
+</html> 
 
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Uploaded Image</title>
-</head>
-<body>
-    <h2>View Uploaded Image</h2>
-    <img id="imageDisplay" src="" alt="Uploaded Image" style="max-width: 500px;">
-
-    <script>
-        // Get the image data from localStorage
-        const base64Image = localStorage.getItem('uploadedImage');
-
-        // If there's an image, display it
-        if (base64Image && base64Image.startsWith('data:image')) {
-            const img = document.getElementById('imageDisplay');
-            img.src = base64Image;
-        } else {
-            alert('No image found in localStorage.');
-        }
-    </script>
-</body>
-</html>
