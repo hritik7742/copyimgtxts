@@ -61,17 +61,20 @@
     <img id="imageDisplay" src="" alt="Uploaded Image" style="display: none; max-width: 500px;">
 
     <script>
+        // When the button is clicked, send a message to the content script
         document.getElementById('showBtn').addEventListener('click', function() {
-            // Send a message to the Chrome extension to retrieve the image from localStorage
-            chrome.runtime.sendMessage({ action: 'getUploadedImage' }, function(response) {
-                if (response && response.image) {
-                    const img = document.getElementById('imageDisplay');
-                    img.src = response.image;
-                    img.style.display = 'block';
-                } else {
-                    alert('No image found in localStorage.');
-                }
-            });
+            window.postMessage({ action: 'getUploadedImage' }, '*');
+        });
+
+        // Listen for messages from the content script
+        window.addEventListener('message', function(event) {
+            if (event.data && event.data.action === 'showImage') {
+                const img = document.getElementById('imageDisplay');
+                img.src = event.data.image;
+                img.style.display = 'block';
+            } else if (event.data && event.data.action === 'error') {
+                alert(event.data.message);
+            }
         });
     </script>
 </body>
