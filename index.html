@@ -1,4 +1,4 @@
-
+<!-- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,5 +44,35 @@
     </div>
 
     <script src="index.js"></script>
+</body>
+</html> -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Show Uploaded Image</title>
+</head>
+<body>
+    <h2>View Uploaded Image</h2>
+    <button id="showBtn">Show Image</button><br><br>
+    <img id="imageDisplay" src="" alt="Uploaded Image" style="display: none; max-width: 500px;">
+
+    <script>
+        document.getElementById('showBtn').addEventListener('click', function() {
+            // Send a message to the Chrome extension to retrieve the image from localStorage
+            chrome.runtime.sendMessage({ action: 'getUploadedImage' }, function(response) {
+                if (response && response.image) {
+                    const img = document.getElementById('imageDisplay');
+                    img.src = response.image;
+                    img.style.display = 'block';
+                } else {
+                    alert('No image found in localStorage.');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
