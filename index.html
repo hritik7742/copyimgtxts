@@ -47,6 +47,8 @@
 </body>
 </html> -->
 
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -59,23 +61,15 @@
     <img id="imageDisplay" src="" alt="Uploaded Image" style="max-width: 500px;">
 
     <script>
-        // Function to get the value of a URL parameter
-        function getUrlParameter(name) {
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            const regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            const results = regex.exec(location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        }
-
-        // Get the image data from the URL parameter
-        const base64Image = getUrlParameter('image');
+        // Get the image data from localStorage
+        const base64Image = localStorage.getItem('uploadedImage');
 
         // If there's an image, display it
         if (base64Image && base64Image.startsWith('data:image')) {
             const img = document.getElementById('imageDisplay');
             img.src = base64Image;
         } else {
-            alert('No image found.');
+            alert('No image found in localStorage.');
         }
     </script>
 </body>
