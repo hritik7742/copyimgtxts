@@ -97,28 +97,61 @@
             justify-content: space-between;
             margin-top: 20px;
         }
+       
         .upgrade-card {
-            background: linear-gradient(45deg, #3498db, #2980b9);
+            background: linear-gradient(135deg, #2193b0, #6dd5ed);
             color: white;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
+            padding: 25px;
+            border-radius: 15px;
+            margin-top: 30px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
         }
+        
+        .upgrade-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .upgrade-card h3 {
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            color: white;
+        }
+        
+        .upgrade-card p {
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            opacity: 0.9;
+        }
+        
         .upgrade-btn {
+            display: inline-block;
             background-color: white;
-            color: #3498db;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
+            color: #2193b0;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9em;
             transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            width: 100%;
         }
+        
         .upgrade-btn:hover {
-            background-color: #ecf0f1;
+            background-color: #f8f9fa;
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
         }
+        
+        .upgrade-btn:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
